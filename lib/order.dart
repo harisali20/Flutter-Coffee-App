@@ -27,7 +27,6 @@ class _OrderState extends State<Order> {
         throw 'Failed to load coffee';
       }
     } catch (e) {
-      print('Error: $e'); // Debug print
       rethrow;
     }
   }
@@ -77,7 +76,19 @@ class _OrderState extends State<Order> {
               future: fetchCoffee(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const SizedBox(
+                    height: 550,
+                    child: Center(
+                      child: SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 5,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xff1ABB9C)),
+                          )),
+                    ),
+                  );
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData && snapshot.data != null) {
